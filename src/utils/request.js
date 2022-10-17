@@ -41,12 +41,13 @@ _axios.interceptors.request.use((config) => {
   return config
 }, e => Promise.reject(e))
 
-//  相应拦截器
+//  响应拦截器
 //  处理返回数据 1.简化后台返回数据 2.token失效跳回到登录页
 _axios.interceptors.response.use(response => {
   // 请求成功，返回数据
   //  简化返回数据
-  return response.data
+  const { result } = response.data
+  return result
 }, (error) => {
   // 请求失败
   // 401说明token失效，重新登录

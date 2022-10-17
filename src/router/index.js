@@ -1,13 +1,17 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-
-//  配置路由跳转规则
+const Layout = () => import('@/views/layout')
+const Home = () => import('@/views/home')
 const routes = [
-
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      { path: '/', component: Home }
+    ]
+  }
 ]
-
 const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
 export default router

@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 import user from '@/store/modules/user'
 import cart from '@/store/modules/cart'
+import category from '@/store/modules/category'
 // 导入本地自动持久化插件
 import createPersistedstate from 'vuex-persistedstate'
 export default createStore({
@@ -15,7 +16,8 @@ export default createStore({
   },
   modules: {
     user,
-    cart
+    cart,
+    category
   },
   //  插件选项
   plugins: [

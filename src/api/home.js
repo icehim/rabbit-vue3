@@ -2,8 +2,8 @@
 import request from '@/utils/request'
 
 //  测试
-export function homeNewSimple () {
+export function findHeadCategory () {
   return request({
-    url: '/home/new/simple'
+    url: '/home/category/head'
   })
 }
