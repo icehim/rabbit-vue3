@@ -5,16 +5,7 @@
   </div>
 </template>
 <script>
-import { homeNewSimple } from '@/api/home'
 export default {
-  setup () {
-    const btnClick = () => {
-      homeNewSimple().then(res => {
-        console.log(res)
-      })
-    }
-    return { btnClick }
-  }
 }
 
 </script>

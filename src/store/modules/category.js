@@ -18,7 +18,7 @@ export default {
     //  获取菜单数据
     async getListAction ({ commit }, payload) {
       const res = await findHeadCategory()
-      console.log('菜单数据', res)
+      // console.log('菜单数据', res)
       commit('setList', res)
     }
   }

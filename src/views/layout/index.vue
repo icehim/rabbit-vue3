@@ -16,6 +16,7 @@ import XtxHeader from '@/views/layout/components/header'
 import XtxFooter from '@/views/layout/components/footer'
 // 吸顶组件
 import XtxHeaderSticky from '@/views/layout/components/header-sticky'
+import { useStore } from 'vuex'
 export default {
   name: 'xtx-layout',
   components: {
@@ -23,6 +24,11 @@ export default {
     XtxHeader,
     XtxFooter,
     XtxHeaderSticky
+  },
+  setup () {
+    // 在父组件获取菜单数据
+    const store = useStore()
+    store.dispatch('category/getListAction')
   }
 }
 </script>

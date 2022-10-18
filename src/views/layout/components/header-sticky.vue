@@ -15,7 +15,6 @@
 <script>
 import HeaderNav from './header-nav'
 import { useWindowScroll } from '@vueuse/core'
-import { ref } from 'vue'
 export default {
   name: 'AppHeaderSticky',
   components: { HeaderNav },
