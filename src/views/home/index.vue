@@ -10,6 +10,8 @@
     <home-new/>
 <!--人气推荐-->
     <home-hot/>
+<!--商品楼层-->
+    <home-product/>
   </div>
 </template>
 
@@ -18,13 +20,16 @@ import homeCategory from '@/views/home/components/home-category'
 import homeBanner from '@/views/home/components/home-banner'
 import homeNew from '@/views/home/components/home-new'
 import homeHot from '@/views/home/components/home-hot'
+// 商品楼层
+import homeProduct from '@/views/home/components/home-product'
 export default {
   name: 'xtx-home-page',
   components: {
     homeCategory,
     homeBanner,
     homeNew,
-    homeHot
+    homeHot,
+    homeProduct
   }
 }
 </script>
