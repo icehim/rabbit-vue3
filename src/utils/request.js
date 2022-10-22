@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
 // 防止多次请求
-let cancelArr = []
+// let cancelArr = []
 
 // 取消所有请求
 // export function cancelAll () {
@@ -22,18 +22,18 @@ const _axios = axios.create({
 
 _axios.interceptors.request.use((config) => {
   // 取消：找出相同的api请求进行取消（url与method相同）
-  cancelArr = cancelArr.filter(item => {
-    if (item.url === config.url && item.method === config.method) {
-      item.fn()
-      return false
-    }
-    return true
-  })
+  // cancelArr = cancelArr.filter(item => {
+  //   if (item.url === config.url && item.method === config.method) {
+  //     item.fn()
+  //     return false
+  //   }
+  //   return true
+  // })
 
-  config.cancelToken = new axios.CancelToken((cancelFn) => {
-    // 存储取消方法
-    cancelArr.push({ url: config.url, method: config.method, fn: cancelFn })
-  })
+  // config.cancelToken = new axios.CancelToken((cancelFn) => {
+  //   // 存储取消方法
+  //   cancelArr.push({ url: config.url, method: config.method, fn: cancelFn })
+  // })
   const { token } = store.state.user.profile.token
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
@@ -51,6 +51,7 @@ _axios.interceptors.response.use(response => {
 }, (error) => {
   // 请求失败
   // 401说明token失效，重新登录
+  // console.log(error.response)
   if (error.response.status === 401) {
     // 需求跳回登陆后，登录成功，可以返回上次访问的页面
     //  获取当前页面地址:router.currentRoute.value.fullPath

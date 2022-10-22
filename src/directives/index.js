@@ -14,7 +14,7 @@ export default {
       // dom  用test指令的元素dom对象
       // binding  获取指令绑定的值(binding.value)
       mounted (dom, binding) {
-        console.log(dom, binding)
+        // console.log(dom, binding)
       }
     })
 

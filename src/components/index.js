@@ -8,7 +8,10 @@
 import Skeleton from '@/components/Skeleton'
 import Slider from '@/components/Slider'
 import More from '@/components/More'
-const cps = [Skeleton, Slider, More]
+import Bread from '@/components/Bread'
+import BreadItem from '@/components/Bread/item'
+import city from '@/components/City'
+const cps = [Skeleton, Slider, More, Bread, BreadItem, city]
 export default {
   install (app) {
     // console.log(app)
