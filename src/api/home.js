@@ -27,3 +27,10 @@ export function findHot () {
     url: 'home/hot'
   })
 }
+
+// 获取所有商品模块
+export function findGoods () {
+  return request({
+    url: 'home/goods'
+  })
+}

@@ -18,6 +18,10 @@ export function useObserve (apiFn) {
         // 关闭监控
         stop()
       }
+    },
+    //  阈值0~1 设置为0，加速接口请求
+    {
+      threshold: 0
     })
   return { target }
 }

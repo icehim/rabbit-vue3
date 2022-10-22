@@ -20,7 +20,6 @@ export default {
     const getList = async () => {
       const res = await findBanner()
       list.value = res
-      console.log(res)
     }
     // 发送请求
     getList()

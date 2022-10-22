@@ -1,5 +1,6 @@
 <template>
   <!--  测试-->
+  <input type="text" v-test>
   <!--  <XtxSkeleton :width="100" :height="100" bg="#222"/>-->
   <div class="container">
 <!--分类和轮播图-->
