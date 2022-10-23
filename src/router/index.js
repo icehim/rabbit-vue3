@@ -5,7 +5,8 @@ const Layout = () => import('@/views/layout')
 const Home = () => import('@/views/home')
 //  商品详情
 const GoodDetail = () => import('@/views/good')
-
+//  登录
+const Login = () => import('@/views/login')
 const routes = [
   {
     path: '/',
@@ -16,6 +17,10 @@ const routes = [
       // 商品详情页
       { path: '/detail/:id', component: GoodDetail }
     ]
+  },
+  {
+    path: '/login',
+    component: Login
   }
 ]
 const router = createRouter({
