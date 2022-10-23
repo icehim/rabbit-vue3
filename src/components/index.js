@@ -14,7 +14,8 @@ import city from '@/components/City'
 import sku from '@/components/Sku'
 import Numbox from '@/components/Numbox'
 import Button from '@/components/Button'
-const cps = [Skeleton, Slider, More, Bread, BreadItem, city, sku, Numbox, Button]
+import checkBox from '@/components/CheckBox'
+const cps = [Skeleton, Slider, More, Bread, BreadItem, city, sku, Numbox, Button, checkBox]
 export default {
   install (app) {
     // console.log(app)

@@ -38,7 +38,16 @@
     </div>
   </div>
 </template>
+<script>
+import { Form, Field } from 'vee-validate'
+export default {
+  components: {
+    Form,
+    Field
+  }
 
+}
+</script>
 <style lang="less" scoped>
 // 账号容器
 .account-box {
