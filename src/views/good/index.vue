@@ -26,7 +26,19 @@
           <!--商品sku信息-->
           <goods-sku :goods="goodDetail" @change="getSku"/>
           <!--商品数量加减-->
-          <xtx-numbox :max="goodDetail.inventory"/>
+          <!--
+            v-model双向绑定(语法糖)
+              vue2完整写法:v-model =  :value + @input
+              vue3完整写法:
+              1. v-model =  :modelValue + @update:modelValue
+              2. v-model:props = :props = @update:props
+              vue3把sync修饰和双向绑定做了合并，可以在组件身上写多个双向绑定
+              注意: vue3使用v-model:props名="变量" 替代sync修饰符
+          -->
+          <xtx-numbox v-model="buyNum" :max="goodDetail.inventory"/>
+          <!--<xtx-numbox :modelValue="buyNum" @update:modelValue="buyNum = $event" :max="goodDetail.inventory"/>-->
+          <!--添加到购物车按钮-->
+          <xtx-button style="margin-top: 20px" size="large" type="primary">加入购物车</xtx-button>
         </div>
       </div>
       <!-- 商品详情 -->
@@ -52,10 +64,12 @@ import goodsSales from '@/views/good/components/goods-sales'
 import goodInfos from '@/views/good/components/goods-name'
 import GoodsSku from '@/components/Sku'
 import XtxNumbox from '@/components/Numbox'
+import XtxButton from '@/components/Button'
 
 export default {
   name: 'XtxGoodsPage',
   components: {
+    XtxButton,
     XtxNumbox,
     GoodsSku,
     goodsImage,
@@ -76,6 +90,8 @@ export default {
 
     getGoodDetail()
 
+    const buyNum = ref(10)
+
     // 获取商品的sku信息
     const getSku = (currSku) => {
       console.log('当前选的的商品sku信息', currSku)
@@ -88,7 +104,7 @@ export default {
       }
     }
 
-    return { goodDetail, getSku }
+    return { goodDetail, getSku, buyNum }
   }
   // vue2 获取路由参数
   // created () {

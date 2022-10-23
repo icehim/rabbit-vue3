@@ -13,7 +13,8 @@ import BreadItem from '@/components/Bread/item'
 import city from '@/components/City'
 import sku from '@/components/Sku'
 import Numbox from '@/components/Numbox'
-const cps = [Skeleton, Slider, More, Bread, BreadItem, city, sku, Numbox]
+import Button from '@/components/Button'
+const cps = [Skeleton, Slider, More, Bread, BreadItem, city, sku, Numbox, Button]
 export default {
   install (app) {
     // console.log(app)

@@ -12,12 +12,18 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export default {
   name: 'XtxNumbox',
+  emits: ['update:modelValue'],
   props: {
     //  通过父传子
+    // 双向绑定变量接受（buyNum）
+    modelValue: {
+      type: Number,
+      default: 1
+    },
     // 最小
     min: {
       type: Number,
@@ -29,19 +35,30 @@ export default {
       default: 10
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const num = ref(1)
     // 点击加一
     const add = () => {
       // 已经最大了
       if (props.max === num.value) return
       num.value++
+      // 把num最新值同步给modelValue
+      emit('update:modelValue', num.value)
     }
+
+    watch(() => props.modelValue, (newVal) => {
+      // 2.把modelValue最新值同步给num
+      num.value = newVal
+    }, {
+      // 默认同步一次
+      immediate: true
+    })
     // 点击减一
     const sub = () => {
       // 已经最小
       if (props.min === num.value) return
       num.value--
+      emit('update:modelValue', num.value)
     }
     return { num, add, sub }
   }
