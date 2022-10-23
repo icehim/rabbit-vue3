@@ -32,7 +32,7 @@ function useCityList () {
   const backupCityList = []
   const getCityList = async () => {
     const { data } = await axios({ url: 'https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/area.json' })
-    console.log('citys:', data)
+    // console.log('citys:', data)
     // 备份
     // backupCityList = data => 问题：切断引用关系
     backupCityList.push(...data)

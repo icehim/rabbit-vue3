@@ -26,7 +26,7 @@
           <!--商品sku信息-->
           <goods-sku :goods="goodDetail" @change="getSku"/>
           <!--商品数量加减-->
-          <xtx-numbox/>
+          <xtx-numbox :max="goodDetail.inventory"/>
         </div>
       </div>
       <!-- 商品详情 -->
@@ -83,6 +83,7 @@ export default {
         // 不是空对象，就是一条有效的sku信息=》更新价格，库存信息
         goodDetail.value.price = currSku.price
         goodDetail.value.oldPrice = currSku.oldPrice
+        // 这是库存
         goodDetail.value.inventory = currSku.inventory
       }
     }
