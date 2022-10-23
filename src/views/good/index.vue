@@ -21,7 +21,12 @@
         </div>
         <!-- 商品信息区 -->
         <div class="spec">
-          <goodInfos />
+          <!--基本信息-->
+          <goodInfos/>
+          <!--商品sku信息-->
+          <goods-sku :goods="goodDetail" @change="getSku"/>
+          <!--商品数量加减-->
+          <xtx-numbox/>
         </div>
       </div>
       <!-- 商品详情 -->
@@ -45,10 +50,17 @@ import { useRoute } from 'vue-router'
 import goodsImage from '@/views/good/components/goods-image'
 import goodsSales from '@/views/good/components/goods-sales'
 import goodInfos from '@/views/good/components/goods-name'
+import GoodsSku from '@/components/Sku'
+import XtxNumbox from '@/components/Numbox'
+
 export default {
   name: 'XtxGoodsPage',
   components: {
-    goodsImage, goodsSales, goodInfos
+    XtxNumbox,
+    GoodsSku,
+    goodsImage,
+    goodsSales,
+    goodInfos
   },
   setup () {
     const goodDetail = ref({})
@@ -63,7 +75,19 @@ export default {
     }
 
     getGoodDetail()
-    return { goodDetail }
+
+    // 获取商品的sku信息
+    const getSku = (currSku) => {
+      console.log('当前选的的商品sku信息', currSku)
+      if (currSku.skuId) {
+        // 不是空对象，就是一条有效的sku信息=》更新价格，库存信息
+        goodDetail.value.price = currSku.price
+        goodDetail.value.oldPrice = currSku.oldPrice
+        goodDetail.value.inventory = currSku.inventory
+      }
+    }
+
+    return { goodDetail, getSku }
   }
   // vue2 获取路由参数
   // created () {
@@ -103,6 +127,7 @@ export default {
   background: #fff;
   margin-top: 20px;
 }
+
 .goods-info {
   min-height: 600px;
   background: #fff;
@@ -113,6 +138,7 @@ export default {
     height: 600px;
     padding: 30px 50px;
   }
+
   .spec {
     flex: 1;
     padding: 30px 30px 30px 0;
