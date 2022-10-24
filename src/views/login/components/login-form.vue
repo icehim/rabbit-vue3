@@ -1,6 +1,6 @@
 <template>
   <div class="account-box">
-    <div class="form">
+    <Form class="form">
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-user"></i>
@@ -25,7 +25,7 @@
         </div>
       </div>
       <a href="javascript:;" class="btn">登录</a>
-    </div>
+    </Form>
     <div class="action">
       <img
         src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
