@@ -34,7 +34,7 @@ _axios.interceptors.request.use((config) => {
   //   // 存储取消方法
   //   cancelArr.push({ url: config.url, method: config.method, fn: cancelFn })
   // })
-  const { token } = store.state.user.profile.token
+  const token = store.state.user.profile.token
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }

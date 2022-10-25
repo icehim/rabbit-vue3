@@ -68,7 +68,10 @@
 import { Form, Field } from 'vee-validate'
 import { reactive, ref } from 'vue'
 import validateFns from '@/utils/validate'
-
+import { useStore } from 'vuex'
+// 导入消息提示
+import msg from '@/components/Message'
+import { useRoute, useRouter } from 'vue-router'
 export default {
   components: {
     Form,
@@ -95,11 +98,30 @@ export default {
 
     // 登录业务
     const fm = ref()
+    // 获取vuex的实例
+    const store = useStore()
+    // router路由实例
+    const router = useRouter()
+    // 路由对象=》获取路由的参数
+    const route = useRoute()
     const login = async () => {
       // fm.value  表单组件实例
       const { valid } = await fm.value.validate()
       if (valid) {
-        console.log('校验通过')
+        // 调用接口
+        try {
+          /*
+          * 1.调用登录的action
+          * 2.登录成功跳转页面
+          * */
+          await store.dispatch('user/getProfileAction', formData)
+          // 登录接口成功可以走到这里
+          msg({ type: 'success', text: '登录成功' })
+          router.replace(route.query.redirectUrl || '/')
+        } catch (error) {
+          // 登录失败走到这里
+          msg({ type: 'error', text: error.response.data.message })
+        }
       }
     }
     return { formData, rules, login, fm }
