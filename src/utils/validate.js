@@ -3,6 +3,8 @@
 * */
 export default {
   // 校验account
+  // value 是输入框的值
+  // 校验不通过  返回错误信息，校验通过返回true
   account (value) {
     if (!value) return '请输入用户名'
     return true

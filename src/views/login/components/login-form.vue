@@ -1,19 +1,27 @@
 <template>
   <div class="account-box">
-    <Form class="form">
+    <!--1.使用Form组件包裹表单区域-->
+    <Form :validation-schema="rules" v-slot="{ errors }" class="form">
+      <!--测试=> errors对象可以获取校验结果-->
+      <p>{{ errors }}</p>
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-user"></i>
-          <input type="text" placeholder="请输入用户名或手机号" />
+          <!--2.替换表单input元素为Filed组件-->
+          <!--用户名-->
+          <Field type="text" name="account" :class="{error:errors.account}" v-model="formData.account"
+                 placeholder="请输入用户名或手机号"/>
         </div>
         <!-- 表单验证错误信息提示 -->
-        <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
+        <div v-if="errors.account" class="error"><i class="iconfont icon-warning"/>{{errors.account}}</div>
       </div>
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-lock"></i>
-          <input type="password" placeholder="请输入密码" />
+          <!--密码-->
+          <Field type="password" :class="{error:errors.password}" name="password" v-model="formData.password" placeholder="请输入密码"/>
         </div>
+        <div v-if="errors.password" class="error"><i class="iconfont icon-warning"/>{{errors.password}}</div>
       </div>
       <div class="form-item">
         <div class="agree">
@@ -40,10 +48,31 @@
 </template>
 <script>
 import { Form, Field } from 'vee-validate'
+import { reactive } from 'vue'
+import validateFns from '@/utils/validate'
+
 export default {
   components: {
     Form,
     Field
+  },
+  setup () {
+    /*
+    * 实现校验
+    * 1.准备表单数据
+    * 2.准备校验规则
+    * */
+    const formData = reactive({
+      account: '',
+      password: ''
+    })
+
+    // 把校验规则定义为一个普通的js对象(不是响应式的)
+    const rules = {
+      account: validateFns.account,
+      password: validateFns.password
+    }
+    return { formData, rules }
   }
 
 }
@@ -54,20 +83,26 @@ export default {
   .toggle {
     padding: 15px 40px;
     text-align: right;
+
     a {
       color: @xtxColor;
+
       i {
         font-size: 14px;
       }
     }
   }
+
   .form {
     padding: 0 20px;
+
     &-item {
       margin-bottom: 28px;
+
       .input {
         position: relative;
         height: 36px;
+
         > i {
           width: 34px;
           height: 34px;
@@ -80,20 +115,24 @@ export default {
           line-height: 34px;
           font-size: 18px;
         }
+
         input {
           padding-left: 44px;
           border: 1px solid #cfcdcd;
           height: 36px;
           line-height: 36px;
           width: 100%;
+
           &.error {
             border-color: @priceColor;
           }
+
           &.active,
           &:focus {
             border-color: @xtxColor;
           }
         }
+
         .code {
           position: absolute;
           right: 1px;
@@ -108,22 +147,26 @@ export default {
           cursor: pointer;
         }
       }
+
       > .error {
         position: absolute;
         font-size: 12px;
         line-height: 28px;
         color: @priceColor;
+
         i {
           font-size: 14px;
           margin-right: 2px;
         }
       }
     }
+
     .agree {
       a {
         color: #069;
       }
     }
+
     .btn {
       display: block;
       width: 100%;
@@ -132,16 +175,19 @@ export default {
       text-align: center;
       line-height: 40px;
       background: @xtxColor;
+
       &.disabled {
         background: #cfcdcd;
       }
     }
   }
+
   .action {
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .url {
       a {
         color: #999;
