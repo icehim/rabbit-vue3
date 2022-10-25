@@ -4,8 +4,8 @@
       <ul>
         <!--登录后 template不会渲染任何元素-->
         <template v-if="profile.token">
-        <li><a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a></li>
-        <li><a href="javascript:;">退出登录</a></li>
+        <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{profile.account || profile.nickname }}</a></li>
+        <li><a href="javascript:;" @click="logout">退出登录</a></li>
         </template>
         <!--没有登录-->
         <template v-else>
@@ -22,12 +22,22 @@
   </nav>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
   name: 'AppTopnav',
   computed: { // 计算属性
     // mapState('模块名',['模块下的变量名1','模块下的变量名2'])
     ...mapState('user', ['profile'])
+  },
+  setup () {
+    const store = useStore()
+    const router = useRouter()
+    const logout = () => {
+      store.dispatch('user/logoutAction')
+      router.replace('/login')
+    }
+    return { logout }
   }
 }
 </script>

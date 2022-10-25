@@ -25,9 +25,15 @@ export default {
     }
   },
   actions: {
+    // 获取登陆人信息
     async getProfileAction ({ commit }, formData) {
       const profile = await userAccountLogin(formData)
       commit('setProfile', profile)
+    },
+    // 退出登录
+    async logoutAction ({ commit }) {
+      // 删除登陆热信息
+      commit('delProfile')
     }
   }
 }

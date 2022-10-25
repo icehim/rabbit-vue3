@@ -94,7 +94,7 @@ export default {
 
     // 获取商品的sku信息
     const getSku = (currSku) => {
-      console.log('当前选的的商品sku信息', currSku)
+      // console.log('当前选的的商品sku信息', currSku)
       if (currSku.skuId) {
         // 不是空对象，就是一条有效的sku信息=》更新价格，库存信息
         goodDetail.value.price = currSku.price
