@@ -3,6 +3,10 @@
     <!--1.使用Form组件包裹表单区域-->
     <Form :validation-schema="rules" v-slot="{ errors }" class="form">
       <!--测试=> errors对象可以获取校验结果-->
+      <!--
+      1.校验通过:errors里是个空对象
+      2.校验失败：errors里包含校验失败表单想的错误提示信息
+      -->
       <p>{{ errors }}</p>
       <div class="form-item">
         <div class="input">
@@ -13,23 +17,37 @@
                  placeholder="请输入用户名或手机号"/>
         </div>
         <!-- 表单验证错误信息提示 -->
-        <div v-if="errors.account" class="error"><i class="iconfont icon-warning"/>{{errors.account}}</div>
+        <div v-if="errors.account" :class="{errtips:errors.account}" class="error">
+          <i class="iconfont icon-warning"/>{{ errors.account }}
+        </div>
       </div>
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-lock"></i>
           <!--密码-->
-          <Field type="password" :class="{error:errors.password}" name="password" v-model="formData.password" placeholder="请输入密码"/>
+          <Field type="password" :class="{error:errors.password}" name="password" v-model="formData.password"
+                 placeholder="请输入密码"/>
         </div>
-        <div v-if="errors.password" class="error"><i class="iconfont icon-warning"/>{{errors.password}}</div>
+        <div v-if="errors.password" :class="{errtips:errors.password}" class="error"><i class="iconfont icon-warning"/>{{
+            errors.password
+          }}
+        </div>
       </div>
       <div class="form-item">
         <div class="agree">
-          <XtxCheckBox/>
-          <span>我已同意</span>
+          <!--校验自定义组件-->
+          <!--as="自定义组件的标签名"-->
+          <Field as="XtxCheckBox" name="isAgree" v-model="formData.isAgree">
+            <span>我已同意</span>
+          </Field>
+          <!--<XtxCheckBox/>-->
           <a href="javascript:;">《隐私条款》</a>
           <span>和</span>
           <a href="javascript:;">《服务条款》</a>
+        </div>
+        <!--错误提示信息-->
+        <div v-if="errors.isAgree" :class="{errtips:errors.isAgree}" class="error"><i
+          class="iconfont icon-warning"/>{{ errors.isAgree }}
         </div>
       </div>
       <a href="javascript:;" class="btn">登录</a>
@@ -63,14 +81,16 @@ export default {
     * 2.准备校验规则
     * */
     const formData = reactive({
-      account: '',
-      password: ''
+      account: '', // 用户名
+      password: '', // 密码
+      isAgree: false// 是否同意协议
     })
 
     // 把校验规则定义为一个普通的js对象(不是响应式的)
     const rules = {
       account: validateFns.account,
-      password: validateFns.password
+      password: validateFns.password,
+      isAgree: validateFns.isAgree
     }
     return { formData, rules }
   }
@@ -78,6 +98,45 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.errtips {
+  color: #e40438;
+  animation-name: errtips;
+  animation-duration: 0.5s;
+}
+
+@keyframes errtips {
+  10% {
+    transform: translateY(1px);
+  }
+  20% {
+    transform: translateY(-1px);
+  }
+  30% {
+    transform: translateY(1px);
+  }
+  40% {
+    transform: translateY(-1px);
+  }
+  50% {
+    transform: translateY(1px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+  70% {
+    transform: translateY(1px);
+  }
+  80% {
+    transform: translateY(-1px);
+  }
+  90% {
+    transform: translateY(1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 // 账号容器
 .account-box {
   .toggle {
