@@ -25,6 +25,14 @@ const routes = [
 ]
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+
+  scrollBehavior () {
+    // 作用：每次路由跳转页面都 重置滚动条位置
+    // 写法
+    // vue2:{x:0,y:0}
+    // vue3：{ left: 0, top: 0 }
+    return { left: 0, top: 0 }
+  }
 })
 export default router

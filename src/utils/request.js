@@ -56,6 +56,7 @@ _axios.interceptors.response.use(response => {
     // 需求跳回登陆后，登录成功，可以返回上次访问的页面
     //  获取当前页面地址:router.currentRoute.value.fullPath
     //  注意:vue3获取的时候router.currentRoute.value 加上.value
+    store.dispatch('user/logoutAction')
     const redirectUrl = router.currentRoute.value.fullPath
     router.replace(`/login?redirectUrl=${redirectUrl}`)
   }

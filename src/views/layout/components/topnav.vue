@@ -31,6 +31,7 @@ export default {
     ...mapState('user', ['profile'])
   },
   setup () {
+    // 注意事项:点击情况下 不要嵌套使用
     const store = useStore()
     const router = useRouter()
     const logout = () => {
