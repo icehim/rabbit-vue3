@@ -1,13 +1,13 @@
 <template>
   <div class="account-box">
     <!--1.使用Form组件包裹表单区域-->
-    <Form :validation-schema="rules" v-slot="{ errors }" class="form">
+    <Form ref="fm" :validation-schema="rules" v-slot="{ errors }" class="form">
       <!--测试=> errors对象可以获取校验结果-->
       <!--
       1.校验通过:errors里是个空对象
       2.校验失败：errors里包含校验失败表单想的错误提示信息
       -->
-      <p>{{ errors }}</p>
+      <!--<p>{{ errors }}</p>-->
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-user"></i>
@@ -50,7 +50,7 @@
           class="iconfont icon-warning"/>{{ errors.isAgree }}
         </div>
       </div>
-      <a href="javascript:;" class="btn">登录</a>
+      <a href="javascript:;" class="btn" @click="login">登录</a>
     </Form>
     <div class="action">
       <img
@@ -66,7 +66,7 @@
 </template>
 <script>
 import { Form, Field } from 'vee-validate'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import validateFns from '@/utils/validate'
 
 export default {
@@ -92,7 +92,17 @@ export default {
       password: validateFns.password,
       isAgree: validateFns.isAgree
     }
-    return { formData, rules }
+
+    // 登录业务
+    const fm = ref()
+    const login = async () => {
+      // fm.value  表单组件实例
+      const { valid } = await fm.value.validate()
+      if (valid) {
+        console.log('校验通过')
+      }
+    }
+    return { formData, rules, login, fm }
   }
 
 }
