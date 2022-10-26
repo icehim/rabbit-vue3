@@ -1,6 +1,6 @@
 <template>
   <div class="xtx-numbox">
-    <div class="label">数量</div>
+    <div class="label" v-if="isShowLabel">数量</div>
     <div class="numbox">
       <!--点击加一-->
       <a @click="sub" href="javascript:;">-</a>
@@ -15,10 +15,14 @@
 import { ref, watch } from 'vue'
 
 export default {
-  name: 'XtxNumbox',
+  name: 'XtxNumBox',
   emits: ['update:modelValue'],
   props: {
     //  通过父传子
+    isShowLabel: {
+      type: Boolean,
+      default: true
+    },
     // 双向绑定变量接受（buyNum）
     modelValue: {
       type: Number,

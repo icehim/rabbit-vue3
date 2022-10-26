@@ -1,9 +1,34 @@
 // 购物车状态=》购物车商品数据
+
 export default {
   namespaced: true,
   state: () => ({
     list: []
   }),
+
+  getters: {
+    // 在`getters`中新增：
+    // 1. 有效商品列表=》无效商品（没库存或下架了）
+    // 2. 选中的购物车商品数据
+    // 3. 选中商品总价
+    // 4. 购物车中有效商品是否是全部选中状态
+    // 有效商品列表（购物车页面列表渲染）
+    validList: state => {
+      return state.list.filter(item => item.isEffective)
+    },
+    // 选中的购物车商品数据
+    validSeled: (state, getterts) => {
+      return getterts.validList.filter(item => item.selected)
+    },
+    // 选中的购物车商品数据总价
+    validSeledTotal: (state, getterts) => {
+      return getterts.validSeled.reduce((acc, item) => (acc += item.count * item.nowPrice), 0)
+    },
+    // 有效商品是否是全部选中状态
+    isAll: (state, getterts) => {
+      return getterts.validList.every(item => item.selected)
+    }
+  },
   mutations: {
     /*
     * state
