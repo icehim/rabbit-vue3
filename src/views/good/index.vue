@@ -66,6 +66,7 @@ import GoodsSku from '@/components/Sku'
 import XtxNumbox from '@/components/Numbox'
 import XtxButton from '@/components/Button'
 import msg from '@/components/Message'
+import { useStore } from 'vuex'
 
 export default {
   name: 'XtxGoodsPage',
@@ -113,10 +114,11 @@ export default {
       }
     }
 
+    const store = useStore()
     // 加入购物车业务实现
     const addCart = () => {
       /*
-      * 1.当前已经选择了有效sku商品信息
+      * 1.当前已经选择了有效sku商品信息=》例如:一双鞋子=》选择颜色、尺码等
       * 2.有效sku商品信息的库存大于0
       * 满足以上两个条件，才能加入购物车
       * */
@@ -128,10 +130,10 @@ export default {
       }
       // 执行加入购物车：1.准备后台需要加入的购物车商品对象 2.调用vuex的actions加入购物车(不调用后台接口)
       const addGood = {
-        id: goodDetail.value.id,
+        id: goodDetail.value.id, // 商品ID
         name: goodDetail.value.name,
         picture: goodDetail.value.mainPictures[0],
-        skuId: currSel.value.skuId,
+        skuId: currSel.value.skuId, // 商品的skuid(唯一的)
         price: currSel.value.oldPrice,
         nowPrice: currSel.value.price,
         attrsText: currSel.value.specsText,
@@ -141,6 +143,13 @@ export default {
         count: buyNum.value // 加入数量
       }
       console.log(addGood)
+
+      // 调用vuex的action加入购物车
+      try {
+        store.dispatch('cart/addCartAction', addGood)
+      } catch (error) {
+        console.log(error)
+      }
     }
     return { goodDetail, getSku, buyNum, addCart }
   }
