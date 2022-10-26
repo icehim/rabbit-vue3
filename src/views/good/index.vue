@@ -38,7 +38,7 @@
           <xtx-numbox v-model="buyNum" :max="goodDetail.inventory"/>
           <!--<xtx-numbox :modelValue="buyNum" @update:modelValue="buyNum = $event" :max="goodDetail.inventory"/>-->
           <!--添加到购物车按钮-->
-          <xtx-button style="margin-top: 20px" size="large" type="primary">加入购物车</xtx-button>
+          <xtx-button @click="addCart" style="margin-top: 20px" size="large" type="primary">加入购物车</xtx-button>
         </div>
       </div>
       <!-- 商品详情 -->
@@ -65,6 +65,7 @@ import goodInfos from '@/views/good/components/goods-name'
 import GoodsSku from '@/components/Sku'
 import XtxNumbox from '@/components/Numbox'
 import XtxButton from '@/components/Button'
+import msg from '@/components/Message'
 
 export default {
   name: 'XtxGoodsPage',
@@ -90,7 +91,10 @@ export default {
 
     getGoodDetail()
 
-    const buyNum = ref(10)
+    const buyNum = ref(1)
+
+    // 当前选中的有效sku信息
+    const currSel = ref(null)
 
     // 获取商品的sku信息
     const getSku = (currSku) => {
@@ -101,10 +105,44 @@ export default {
         goodDetail.value.oldPrice = currSku.oldPrice
         // 这是库存
         goodDetail.value.inventory = currSku.inventory
+        // 存储 选择
+        currSel.value = currSku
+      } else {
+        // 清空上次选择
+        currSel.value = null
       }
     }
 
-    return { goodDetail, getSku, buyNum }
+    // 加入购物车业务实现
+    const addCart = () => {
+      /*
+      * 1.当前已经选择了有效sku商品信息
+      * 2.有效sku商品信息的库存大于0
+      * 满足以上两个条件，才能加入购物车
+      * */
+      if (!currSel.value) {
+        return msg({ text: '请选择商品的规则' })
+      }
+      if (currSel.value.inventory === 0) {
+        return msg({ text: '商品卖完了' })
+      }
+      // 执行加入购物车：1.准备后台需要加入的购物车商品对象 2.调用vuex的actions加入购物车(不调用后台接口)
+      const addGood = {
+        id: goodDetail.value.id,
+        name: goodDetail.value.name,
+        picture: goodDetail.value.mainPictures[0],
+        skuId: currSel.value.skuId,
+        price: currSel.value.oldPrice,
+        nowPrice: currSel.value.price,
+        attrsText: currSel.value.specsText,
+        stock: currSel.value.inventory,
+        selected: true,
+        isEffective: true, // 是否是有效商品
+        count: buyNum.value // 加入数量
+      }
+      console.log(addGood)
+    }
+    return { goodDetail, getSku, buyNum, addCart }
   }
   // vue2 获取路由参数
   // created () {
