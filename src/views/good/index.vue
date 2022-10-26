@@ -116,7 +116,7 @@ export default {
 
     const store = useStore()
     // 加入购物车业务实现
-    const addCart = () => {
+    const addCart = async () => {
       /*
       * 1.当前已经选择了有效sku商品信息=》例如:一双鞋子=》选择颜色、尺码等
       * 2.有效sku商品信息的库存大于0
@@ -146,7 +146,9 @@ export default {
 
       // 调用vuex的action加入购物车
       try {
-        store.dispatch('cart/addCartAction', addGood)
+        const rmsg = await store.dispatch('cart/addCartAction', addGood)
+        // 加入成功做提示
+        msg({ text: rmsg, type: 'success' })
       } catch (error) {
         console.log(error)
       }

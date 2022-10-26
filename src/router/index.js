@@ -5,6 +5,8 @@ const Layout = () => import('@/views/layout')
 const Home = () => import('@/views/home')
 //  商品详情
 const GoodDetail = () => import('@/views/good')
+// 购物车
+const Cart = () => import('@/views/cart')
 //  登录
 const Login = () => import('@/views/login')
 const routes = [
@@ -15,7 +17,10 @@ const routes = [
       // 首页
       { path: '/', component: Home },
       // 商品详情页
-      { path: '/detail/:id', component: GoodDetail }
+      { path: '/detail/:id', component: GoodDetail },
+      // 购物车路由
+      { path: '/cart', component: Cart }
+
     ]
   },
   {
