@@ -10,7 +10,7 @@
           <thead>
           <tr>
             <!-- 全选 -->
-            <th width="120"><XtxCheckBox v-model="isAll">全选</XtxCheckBox></th>
+            <th width="120"><XtxCheckBox :modelValue="isAll" @update:modelValue="checkAll">全选</XtxCheckBox></th>
             <th width="400">商品信息</th>
             <th width="220">单价</th>
             <th width="180">数量</th>
@@ -88,7 +88,17 @@ export default {
       // 调用actions=>mutations修改
       store.dispatch('cart/singleCheckAction', { good, isChecked })
     }
-    return { singleCheck }
+
+    // 全选/取消全选
+    const checkAll = (isAll) => {
+      /*
+      * 需求:全选框是否选中会影响列表中所有商品的选中状态：
+      * 1.全选框选中=》列表商品全部选中
+      * 2.全选框取消选中 =》列表商品全部取消选中
+      * */
+      store.dispatch('cart/allCheckAction', isAll)
+    }
+    return { singleCheck, checkAll }
   }
 }
 </script>

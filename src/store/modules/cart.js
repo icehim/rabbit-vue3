@@ -55,6 +55,12 @@ export default {
       const currGood = state.list.find(item => item.skuId === good.skuId)
       // 2.修改选中状态
       currGood.selected = isChecked
+    },
+    // isAll 全选矿是否选中的状态
+    allCheck (state, isAll) {
+      state.list.forEach(item => {
+        item.selected = isAll
+      })
     }
   },
   actions: {
@@ -86,6 +92,16 @@ export default {
       } else {
         // 未登录
         commit('singleCheck', { good, isChecked })
+      }
+    },
+    // 商品全选，取消全选
+    async allCheckAction ({ commit, rootState }, isAll) {
+      // rootState 获取其他模块state数据
+      if (rootState.user.profile.token) {
+        // 已经录 =》调用后台接口
+      } else {
+        // 未登录
+        commit('allCheck', isAll)
       }
     }
 
