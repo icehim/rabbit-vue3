@@ -51,7 +51,7 @@
             <!--当前行的总价-->
             <td class="tc"><p class="f16 red">&yen;{{(good.nowPrice * good.count).toFixed(2)}}</p></td>
             <td class="tc">
-              <p><a class="green" href="javascript:;">删除</a></p>
+              <p><a class="green" href="javascript:;" @click="delCart(good)">删除</a></p>
             </td>
           </tr>
           </tbody>
@@ -98,7 +98,13 @@ export default {
       * */
       store.dispatch('cart/allCheckAction', isAll)
     }
-    return { singleCheck, checkAll }
+
+    // 删除购物车商品
+    // good 当前删除商品对象
+    const delCart = (good) => {
+      store.dispatch('cart/delCartAction', good)
+    }
+    return { singleCheck, checkAll, delCart }
   }
 }
 </script>

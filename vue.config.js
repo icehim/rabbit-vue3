@@ -9,9 +9,12 @@ module.exports = defineConfig({
 
   devServer: { // 自定义服务配置
     open: true,
-    port: 3000
+    port: 8080
   },
-
+  // 这个是给webpack-dev-server开启可以IP和域名访问权限
+  configureWebpack: {
+    devServer: { allowedHosts: ['www.corho.com'] }
+  },
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',

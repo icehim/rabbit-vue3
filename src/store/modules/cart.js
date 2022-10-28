@@ -61,6 +61,11 @@ export default {
       state.list.forEach(item => {
         item.selected = isAll
       })
+    },
+    // good 当前删除商品对象
+    delCheck (state, good) {
+      const delIndex = state.list.findIndex(item => item.skuId === good.skuId)
+      state.list.splice(delIndex, 1)
     }
   },
   actions: {
@@ -102,6 +107,16 @@ export default {
       } else {
         // 未登录
         commit('allCheck', isAll)
+      }
+    },
+    // 删除
+    async delCartAction ({ commit, rootState }, good) {
+      // rootState 获取其他模块state数据
+      if (rootState.user.profile.token) {
+        // 已经录 =》调用后台接口
+      } else {
+        // 未登录
+        commit('delCheck', good)
       }
     }
 
