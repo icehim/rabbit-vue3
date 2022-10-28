@@ -22,8 +22,15 @@
           <tbody>
           <!--购物车有效商品列表-->
           <tr v-for="good in validList" :key="good.skuId">
-            <!--单选-->
-            <td><XtxCheckBox v-model="good.selected"/></td>
+            <!--单选
+            问题:v-model会直会直接修改good.select的值，但是good.selected是vuex中的数据，只能通过mutations修改
+            解决:使用mutations修改
+            1.v-model不能直接使用=》因为他会直接修改vuex数据
+            2.v-model(语法糖) = :modelValue + @update:modelValue(自定义修改)
+            -->
+            <!--<td><XtxCheckBox v-model="good.selected"/></td>-->
+            <!--$event获取子传父的值=》获取选择框中选中状态的Boolean值-->
+            <td><XtxCheckBox :modelValue="good.selected" @update:modelValue="singleCheck(good,$event)"/></td>
             <td>
               <div class="goods">
                 <RouterLink to="/"><img :src="good.picture" alt=""></RouterLink>
@@ -64,11 +71,24 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 export default {
   name: 'XtxCartPage',
   computed: {
     ...mapGetters('cart', ['validList', 'validSeled', 'validSeledTotal', 'isAll'])
+  },
+  setup () {
+    const store = useStore()
+    /* 商品单选子传父回调函数
+    * good 当选勾选的商品
+    * isChecked（$event） 当前商品选中状态
+    * */
+    const singleCheck = (good, isChecked) => {
+      console.log(good, isChecked)
+      // 调用actions=>mutations修改
+      store.dispatch('cart/singleCheckAction', { good, isChecked })
+    }
+    return { singleCheck }
   }
 }
 </script>

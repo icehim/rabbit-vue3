@@ -49,6 +49,12 @@ export default {
         // 没有加入过
         state.list.unshift(good)
       }
+    },
+    singleCheck (state, { good, isChecked }) {
+      // 1.找到当前要做单选的商品数据
+      const currGood = state.list.find(item => item.skuId === good.skuId)
+      // 2.修改选中状态
+      currGood.selected = isChecked
     }
   },
   actions: {
@@ -69,6 +75,19 @@ export default {
         commit('addCart', good)
         return '加入成功'
       }
+    },
+    /*
+    * 商品单选
+    * */
+    async singleCheckAction ({ commit, rootState }, { good, isChecked }) {
+      // rootState 获取其他模块state数据
+      if (rootState.user.profile.token) {
+        // 已经录 =》调用后台接口
+      } else {
+        // 未登录
+        commit('singleCheck', { good, isChecked })
+      }
     }
+
   }
 }
