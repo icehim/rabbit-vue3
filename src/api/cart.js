@@ -67,3 +67,17 @@ export function updateCart (goods) {
     data: goods
   })
 }
+
+/**
+ * 全选反选
+ * @param {Boolean} selected - 选中状态(全选框状态)
+ * @param {Array<string>} ids - 有效商品skuId集合
+ * @returns Promise
+ */
+export function checkAllCart ({ selected, ids }) {
+  return request({
+    url: '/member/cart/selected',
+    method: 'put',
+    data: { selected, ids }
+  })
+}

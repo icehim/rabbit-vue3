@@ -7,8 +7,11 @@ const Home = () => import('@/views/home')
 const GoodDetail = () => import('@/views/good')
 // 购物车
 const Cart = () => import('@/views/cart')
+// 创建订单页
+const Settlement = () => import('@/views/Member/order/index.vue')
 //  登录
 const Login = () => import('@/views/login')
+
 const routes = [
   {
     path: '/',
@@ -19,8 +22,9 @@ const routes = [
       // 商品详情页
       { path: '/detail/:id', component: GoodDetail },
       // 购物车路由
-      { path: '/cart', component: Cart }
-
+      { path: '/cart', component: Cart },
+      // 订单页
+      { path: '/order', component: Settlement }
     ]
   },
   {

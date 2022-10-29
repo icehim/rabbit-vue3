@@ -1,6 +1,6 @@
 // 购物车状态=》购物车商品数据
 
-import { deleteCart, findCartList, insertCart, mergeLocalCart, updateCart } from '@/api/cart'
+import { checkAllCart, deleteCart, findCartList, insertCart, mergeLocalCart, updateCart } from '@/api/cart'
 
 export default {
   namespaced: true,
@@ -143,10 +143,14 @@ export default {
       }
     },
     // 商品全选，取消全选
-    async allCheckAction ({ commit, rootState }, isAll) {
+    async allCheckAction ({ commit, rootState, getters, dispatch }, isAll) {
       // rootState 获取其他模块state数据
       if (rootState.user.profile.token) {
         // 已经录 =》调用后台接口
+        // ids有效商品列表skuId的集合
+        const ids = getters.validList.map(item => item.skuId)
+        await checkAllCart({ selected: isAll, ids })
+        dispatch('getListAction')
       } else {
         // 未登录
         commit('allCheck', isAll)

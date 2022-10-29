@@ -10,7 +10,7 @@
       </div>
       <div class="cart">
         <router-link  class="curr" to="/cart">
-          <i class="iconfont icon-cart"></i><em>2</em>
+          <i class="iconfont icon-cart"></i><em>{{validList.length}}</em>
         </router-link>
       </div>
     </div>
@@ -19,9 +19,13 @@
 
 <script>
 import XtxHeaderNav from '@/views/layout/components/header-nav'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'AppHeader',
+  computed: {
+    ...mapGetters('cart', ['validList'])
+  },
   components: {
     XtxHeaderNav
   }

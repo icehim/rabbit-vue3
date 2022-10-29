@@ -65,7 +65,7 @@
           <span class="red">¥{{validSeledTotal}}</span>
         </div>
         <div class="total">
-          <XtxButton type="primary">下单结算</XtxButton>
+          <XtxButton type="primary" @click="goOrder">下单结算</XtxButton>
         </div>
       </div>
     </div>
@@ -73,6 +73,8 @@
 </template>
 <script>
 import { mapGetters, useStore } from 'vuex'
+import msg from '@/components/Message'
+import { useRouter } from 'vue-router'
 export default {
   name: 'XtxCartPage',
   computed: {
@@ -111,7 +113,26 @@ export default {
       // 调用actions=>mutations修改
       store.dispatch('cart/changeCountAction', { good, count })
     }
-    return { singleCheck, checkAll, delCart, changeCount }
+
+    // 下单
+    const router = useRouter()
+    const goOrder = () => {
+      /*
+      * 下单结算环节的主要任务就是做各种判断，其中包括
+      * 1. 判断是否登录  token
+      * 2. 判断是否选中有效商品  数量不能为零
+      *   满足以上条件跳转去订单页面
+      * */
+      if (!store.state.user.profile.token) {
+        return msg({ text: '请先登录' })
+      }
+      if (store.getters['cart/validSeled'].length === 0) {
+        return msg({ text: '请选择至少一件商品下单' })
+      }
+      // 跳转下单页面
+      router.push('/order')
+    }
+    return { singleCheck, checkAll, delCart, changeCount, goOrder }
   }
 }
 </script>
