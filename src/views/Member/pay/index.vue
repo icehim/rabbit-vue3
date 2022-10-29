@@ -37,7 +37,7 @@
         <div class="item">
           <p>支付平台</p>
           <a class="btn wx" href="javascript:;"></a>
-          <a class="btn alipay" href="javascript:;"></a>
+          <a class="btn alipay" :href="payUrl"></a>
         </div>
         <div class="item">
           <p>支付方式</p>
@@ -75,7 +75,21 @@ export default {
       order.value.orderState === 1 && start(order.value.countdown)
     }
     getOrder()
-    return { order, countTimeText }
+
+    // 准备支付跳转地址
+
+    // 支付地址
+    // const payUrl = '后台服务基准地址+支付页面地址+订单ID+回跳地址'
+    const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+    // encodeURIComponent 编码后url作为参数(避免乱码)
+    // redirectUrl 支付成功回跳页面=》显示支付结果
+    const redirectUrl = encodeURIComponent('http://www.corho.com:8080/#/pay/callback')
+    // const redirectUrl = 'http://www.corho.com:8080/#/pay/callback'
+    // 跳转支付地址 = 1.后台接口地址 2.支付成功回调页面地址 3.参数:订单号
+    const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.orderId}&redirect=${redirectUrl}`
+
+    console.log(payUrl)
+    return { order, countTimeText, payUrl }
   }
 }
 </script>

@@ -14,7 +14,8 @@ import router from '@/router'
 
 // baseURL 超时时间配置
 const _axios = axios.create({
-  baseURL: 'http://pcapi-xiaotuxian-front.itheima.net'
+  // baseURL: 'http://pcapi-xiaotuxian-front.itheima.net'
+  baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net'
 })
 
 //  请求拦截器

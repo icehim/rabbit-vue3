@@ -10,6 +10,8 @@ const Cart = () => import('@/views/cart')
 // 创建订单页
 const Settlement = () => import('@/views/Member/order/index.vue')
 // 支付
+const PayResult = () => import('@/views/Member/pay/result')
+// 支付结果页
 const Pay = () => import('@/views/Member/pay/index')
 //  登录
 const Login = () => import('@/views/login')
@@ -28,7 +30,9 @@ const routes = [
       // 订单页
       { path: '/order', component: Settlement },
       // 支付
-      { path: '/pay', component: Pay }
+      { path: '/pay', component: Pay },
+      // 支付结果页
+      { path: '/pay/callback', component: PayResult }
     ]
   },
   {

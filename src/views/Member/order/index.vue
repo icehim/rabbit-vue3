@@ -129,7 +129,7 @@ export default {
         deliveryTimeType: 1,
         payType: 1,
         buyerMessage: '',
-        addressId: '1521066334727704577', // 地址id(测试)
+        addressId: '1580031175303368706', // 地址id(测试)
         goods: [] // {skuId, count}}
       }
       data.goods = orderInfo.value.goods.map(({ skuId, count }) => {
