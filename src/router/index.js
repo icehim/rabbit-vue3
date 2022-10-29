@@ -9,6 +9,8 @@ const GoodDetail = () => import('@/views/good')
 const Cart = () => import('@/views/cart')
 // 创建订单页
 const Settlement = () => import('@/views/Member/order/index.vue')
+// 支付
+const Pay = () => import('@/views/Member/pay/index')
 //  登录
 const Login = () => import('@/views/login')
 
@@ -24,7 +26,9 @@ const routes = [
       // 购物车路由
       { path: '/cart', component: Cart },
       // 订单页
-      { path: '/order', component: Settlement }
+      { path: '/order', component: Settlement },
+      // 支付
+      { path: '/pay', component: Pay }
     ]
   },
   {

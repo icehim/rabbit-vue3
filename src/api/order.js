@@ -25,3 +25,13 @@ export function createOrder (data) {
     data
   })
 }
+
+/**
+ * 获取订单详情
+ * @param {String} id - 订单ID
+ */
+export function findOrder (id) {
+  return request({
+    url: '/member/order/' + id
+  })
+}
