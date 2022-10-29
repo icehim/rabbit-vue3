@@ -34,6 +34,8 @@ export default {
     async logoutAction ({ commit }) {
       // 删除登陆热信息
       commit('delProfile')
+      // 清空购物车商品数据(跨模块调用vuex)
+      commit('cart/setList', [], { root: true })
     }
   }
 }

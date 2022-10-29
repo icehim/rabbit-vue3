@@ -1,5 +1,7 @@
 // 购物车状态=》购物车商品数据
 
+import { findCartList, mergeLocalCart } from '@/api/cart'
+
 export default {
   namespaced: true,
   state: () => ({
@@ -30,6 +32,10 @@ export default {
     }
   },
   mutations: {
+    // 存储从服务器获取的购物车数据
+    setList (state, list) {
+      state.list = list
+    },
     /*
     * state
     * good 当前要加入购物车的商品对象
@@ -66,9 +72,39 @@ export default {
     delCheck (state, good) {
       const delIndex = state.list.findIndex(item => item.skuId === good.skuId)
       state.list.splice(delIndex, 1)
+    },
+    // 修改数量
+    changeCount (state, { good, count }) {
+      const item = state.list.find(item => item.skuId === good.skuId)
+      item.count = count
     }
   },
   actions: {
+    // 合并购物车
+    async getListAction ({ commit }) {
+      const res = await findCartList()
+      commit('setList', res)
+    },
+    async mergeCartAction ({ state, dispatch }) {
+      /*
+      *登陆后合并购物车思路:
+      * 1.判断state.list有无数据
+      * 2.如果有调用后台合并接口进行合并
+      * */
+      if (state.list.length > 0) {
+        // mergeDate 需要合并的购物车数据
+        const mergeDate = state.list.map(item => {
+          return {
+            skuId: item.skuId,
+            selected: item.selected,
+            count: item.count
+          }
+        })
+        await mergeLocalCart(mergeDate)
+      }
+      // 从服务器获取购物车列表数据
+      dispatch('getListAction')
+    },
     /*
     * rootState=== store.state
     * 需求梳理:需要判断是否是登录状态

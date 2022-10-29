@@ -117,6 +117,8 @@ export default {
           await store.dispatch('user/getProfileAction', formData)
           // 登录接口成功可以走到这里
           msg({ type: 'success', text: '登录成功' })
+          // 合并购物车最新数据
+          store.dispatch('cart/mergeCartAction')
           router.replace(route.query.redirectUrl || '/')
         } catch (error) {
           // 登录失败走到这里
