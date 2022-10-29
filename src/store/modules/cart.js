@@ -1,6 +1,6 @@
 // 购物车状态=》购物车商品数据
 
-import { findCartList, mergeLocalCart } from '@/api/cart'
+import { deleteCart, findCartList, insertCart, mergeLocalCart, updateCart } from '@/api/cart'
 
 export default {
   namespaced: true,
@@ -111,14 +111,19 @@ export default {
     * 1.未登录=》也能使用购物车=》只是寸到vuex并持久化到本地
     * 2.已登陆=》也能使用购物车=》调用后台接口存储购物车数据，然后存到vuex
     * */
-    async addCartAction ({ commit, rootState }, good) {
+    async addCartAction ({ commit, rootState, dispatch }, good) {
       // rootState 获取其他模块state数据
       if (rootState.user.profile.token) {
         // 已经录 =》调用后台接口
         console.log('已登录')
+        // 1.把商品存到数据库
+        await insertCart({ skuId: good.skuId, count: good.count })
+        // 2.重新获取购物车数据
+        dispatch('getListAction')
+        return '加入成功'
       } else {
         // 未登录
-        console.log('未登录')
+        // console.log('未登录')
         commit('addCart', good)
         return '加入成功'
       }
@@ -126,10 +131,12 @@ export default {
     /*
     * 商品单选
     * */
-    async singleCheckAction ({ commit, rootState }, { good, isChecked }) {
+    async singleCheckAction ({ commit, rootState, dispatch }, { good, isChecked }) {
       // rootState 获取其他模块state数据
       if (rootState.user.profile.token) {
         // 已经录 =》调用后台接口
+        await updateCart({ ...good, selected: isChecked })
+        dispatch('getListAction')
       } else {
         // 未登录
         commit('singleCheck', { good, isChecked })
@@ -146,13 +153,26 @@ export default {
       }
     },
     // 删除
-    async delCartAction ({ commit, rootState }, good) {
+    async delCartAction ({ commit, rootState, dispatch }, good) {
       // rootState 获取其他模块state数据
       if (rootState.user.profile.token) {
         // 已经录 =》调用后台接口
+        await deleteCart([good.skuId])
+        dispatch('getListAction')
       } else {
         // 未登录
         commit('delCheck', good)
+      }
+    },
+    async changeCountAction ({ commit, rootState, dispatch }, { good, count }) {
+      // rootState获取其他模块state数据
+      if (rootState.user.profile.token) {
+        // 已登录
+        await updateCart({ ...good, count })
+        dispatch('getListAction')
+      } else {
+        // 未登录
+        commit('changeCount', { good, count })
       }
     }
 

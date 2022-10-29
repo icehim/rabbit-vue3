@@ -46,7 +46,8 @@
               <p>比加入时降价 <span class="red">&yen;{{(good.price - good.nowPrice).toFixed(2)}}</span></p>
             </td>
             <td class="tc">
-              <XtxNumBox :isShowLabel="false" v-model="good.count"/>
+              <!--<XtxNumBox :isShowLabel="false" v-model="good.count"/>-->
+              <XtxNumBox :isShowLabel="false" :modelValue="good.count" @update:modelValue="changeCount(good,$event)"/>
             </td>
             <!--当前行的总价-->
             <td class="tc"><p class="f16 red">&yen;{{(good.nowPrice * good.count).toFixed(2)}}</p></td>
@@ -104,7 +105,13 @@ export default {
     const delCart = (good) => {
       store.dispatch('cart/delCartAction', good)
     }
-    return { singleCheck, checkAll, delCart }
+    //  修改数量
+    const changeCount = (good, count) => {
+      console.log(good, count)
+      // 调用actions=>mutations修改
+      store.dispatch('cart/changeCountAction', { good, count })
+    }
+    return { singleCheck, checkAll, delCart, changeCount }
   }
 }
 </script>

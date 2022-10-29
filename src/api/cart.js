@@ -24,3 +24,46 @@ export function findCartList () {
     url: '/member/cart'
   })
 }
+
+/**
+ * 加入购物车
+ * @param {String} skuId - 商品SKUID
+ * @param {Integer} count - 商品数量
+ * @returns Promise
+ */
+export function insertCart ({ skuId, count }) {
+  return request({
+    url: '/member/cart',
+    method: 'post',
+    data: { skuId, count }
+  })
+}
+
+/**
+ * 删除商品（支持批量删除）
+ * @param {Array<string>} ids - skuId集合
+ * @returns Promise
+ */
+
+export function deleteCart (ids) {
+  return request({
+    url: '/member/cart',
+    method: 'delete',
+    data: { ids }
+  })
+}
+
+/**
+ * 修改购物车商品的状态和数量
+ * @param {String} goods.skuId - 商品sku
+ * @param {Boolean} goods.selected - 选中状态
+ * @param {Integer} goods.count - 商品数量
+ * @returns Promise
+ */
+export function updateCart (goods) {
+  return request({
+    url: '/member/cart/' + goods.skuId,
+    method: 'put',
+    data: goods
+  })
+}
