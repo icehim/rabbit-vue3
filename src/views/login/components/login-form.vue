@@ -84,8 +84,8 @@ export default {
     * 2.准备校验规则
     * */
     const formData = reactive({
-      account: '', // 用户名
-      password: '', // 密码
+      account: 'xiaotuxian001', // 用户名
+      password: '123456', // 密码
       isAgree: false// 是否同意协议
     })
 
